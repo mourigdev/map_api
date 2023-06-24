@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
 from geopy.geocoders import Nominatim
 from geopy.point import Point
 import random
@@ -7,12 +8,9 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['POST'])
 def get_random_coordinates():
-    ip_address = request.args.get('ip')
-
-    if not ip_address:
-        return jsonify({'error': 'IP address not provided.'}), 400
+    ip_address = request.json['ip']
 
     # Get IP region
     ip_info_url = f"https://ipapi.co/{ip_address}/region/"
