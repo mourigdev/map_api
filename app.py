@@ -24,6 +24,7 @@ def get_random_coordinates():
     # Generate random coordinates in the region
     geolocator = Nominatim(user_agent="my-app")
     location = geolocator.geocode(region)
+    return jsonify(location)
     if location is None:
         return jsonify({'error': 'Failed to retrieve location data for the region.'}), 400
 
