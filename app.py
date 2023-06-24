@@ -18,6 +18,7 @@ def get_random_coordinates():
     response = requests.get(ip_info_url)
     if response.status_code == 200:
         region = response.text.strip()
+        return jsonify(region), 200
     else:
         return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
 
