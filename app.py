@@ -11,8 +11,6 @@ CORS(app)
 @app.route('/', methods=['GET'])
 def get_random_coordinates():
     ip_address = request.args.get('ip')
-    if not ip_address:
-        return
     # Get IP region
     ip_info_url = f"https://ipapi.co/{ip_address}/region/"
     response = requests.get(ip_info_url)
@@ -20,7 +18,6 @@ def get_random_coordinates():
         region = response.text.strip()
     else:
         return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
-
     # Generate random coordinates in the region
     geolocator = Nominatim(user_agent="my-app")
     location = geolocator.geocode(region)
