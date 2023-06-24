@@ -11,7 +11,8 @@ CORS(app)
 @app.route('/', methods=['GET'])
 def get_random_coordinates():
     ip_address = request.args.get('ip')
-    return jsonify({'ip' : ip_address})
+    if not ip_address:
+        return
     # Get IP region
     ip_info_url = f"https://ipapi.co/{ip_address}/region/"
     response = requests.get(ip_info_url)
