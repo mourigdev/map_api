@@ -16,12 +16,13 @@ def get_random_coordinates():
     response = requests.get(ip_info_url)
     if response.status_code == 200:
         region = response.text.strip()
+        return jsonify(region), 200
     else:
         return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
+    
     # Generate random coordinates in the region
     geolocator = Nominatim(user_agent="my-app")
     location = geolocator.geocode(region)
-    return jsonify(geolocator.geocode(region)), 200
     if location is None:
         return jsonify({'error': 'Failed to retrieve location data for the region.'}), 400
 
