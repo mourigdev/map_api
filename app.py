@@ -8,19 +8,7 @@ import random
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/', methods=['GET'])
-def get_random_coordinates():
-    ip_address = request.args.get('ip')
-    # Get IP region
-    ip_info_url = f"https://ipapi.co/{ip_address}/region/"
-    response = requests.get(ip_info_url)
-    if response.status_code == 200:
-        region = response.text.strip()
-        return jsonify(region), 200
-    else:
-        return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
-    
-    # Generate random coordinates in the region
+def generate_random_coordinates(region):
     geolocator = Nominatim(user_agent="my-app")
     location = geolocator.geocode(region)
     if location is None:
@@ -38,6 +26,23 @@ def get_random_coordinates():
     }
 
     return jsonify(result), 200
+
+@app.route('/', methods=['GET'])
+def get_random_coordinates():
+    ip_address = request.args.get('ip')
+
+    # Get IP region
+    ip_info_url = f"https://ipapi.co/{ip_address}/region/"
+    response = requests.get(ip_info_url)
+    if response.status_code == 200:
+        region = response.text.strip()
+    else:
+        return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
+
+    # Call the generate_random_coordinates function
+    result = generate_random_coordinates(region)
+
+    return result
 
 if __name__ == '__main__':
     app.run()
