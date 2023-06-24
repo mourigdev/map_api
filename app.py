@@ -14,7 +14,7 @@ def get_random_coordinates():
     if not ip_address:
         return
     # Get IP region
-    ip_info_url = f"https://ipapi.co/{ip_address}/region/"
+    ip_info_url = f"https://ipapi.co/{ip_address}/city/"
     response = requests.get(ip_info_url)
     if response.status_code == 200:
         region = response.text.strip()
