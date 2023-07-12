@@ -29,8 +29,19 @@ def generate_random_coordinates(region):
 
 @app.route('/', methods=['GET'])
 def get_random_coordinates():
+    ip_address = request.args.get('ip')
+    if ip_address is None:
+        return jsonify({'error': 'Failed to retrieve ip adresse.'}), 400
+    # Get IP region
+    ip_info_url = f"https://ipapi.co/{ip_address}/region/"
+    response = requests.get(ip_info_url)
+    if response.status_code == 200:
+        region = response.text.strip()
+    else:
+        return jsonify({'error': 'Failed to retrieve region of the IP.'}), 400
 
-    result = generate_random_coordinates('Tanger-Tetouan-Al Hoceima')
+    # Call the generate_random_coordinates function
+    result = generate_random_coordinates(region)
 
     return result
 
