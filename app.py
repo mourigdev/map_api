@@ -31,7 +31,7 @@ def generate_random_coordinates(region):
 def get_random_coordinates():
     ip_address = request.args.get('ip')
     if ip_address is None:
-        return jsonify({'error': 'Failed to retrieve the ip adresse.'}), 400
+        return jsonify({'error': 'Failed to retrieve ip adresse.'}), 400
     # Get IP region
     ip_info_url = f"https://ipapi.co/{ip_address}/region/"
     response = requests.get(ip_info_url)
